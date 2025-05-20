@@ -95,7 +95,7 @@ const pkg = getPackageJson();
   // case: if wording for MAJOR found
   else if (
     messages.some(
-      (message) => /^([a-zA-Z]+)(\(.+\))?(\!)\:/.test(message) || majorWords.some((word) => message.includes(word)),
+      (message) => majorWords.some((word) => message.includes(word)),
     )
   ) {
     version = 'major';
