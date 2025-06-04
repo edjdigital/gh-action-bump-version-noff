@@ -1,3 +1,6 @@
+This is a direct fork from [phips28/gh-action-bump-version](https://github.com/phips28/gh-action-bump-version/issues/193) with a small difference that it removes feature flags from being hardcoded into the MAJOR version bump.
+This means that commits like `feat!: ...` won't trigger a MAJOR version bump.
+
 ## gh-action-bump-version 
 
 GitHub Action for automated npm version bump.
@@ -40,8 +43,7 @@ Remove the 'actions/setup-node@v1' step from your action.yml file
 ### Workflow
 
 * Based on the commit messages, increment the version from the latest release.
-  * If the string "BREAKING CHANGE", "major" or the Attention pattern `refactor!: drop support for Node 6` is found anywhere in any of the commit messages or descriptions the major
-    version will be incremented.
+  * If the string "BREAKING CHANGE" or "major" is found anywhere in any of the commit messages or descriptions the major version will be incremented.
   * If a commit message begins with the string "feat" or includes "minor" then the minor version will be increased. This works
     for most common commit metadata for feature additions: `"feat: new API"` and `"feature: new API"`.
   * If a commit message contains the word "pre-alpha" or "pre-beta" or "pre-rc" then the pre-release version will be increased (for example specifying pre-alpha: 1.6.0-alpha.1 -> 1.6.0-alpha.2 or, specifying pre-beta: 1.6.0-alpha.1 -> 1.6.0-beta.0)
@@ -56,7 +58,7 @@ Remove the 'actions/setup-node@v1' step from your action.yml file
 Customize the messages that trigger the version bump. It must be a string, case sensitive, comma separated  (optional). Example:
 ```yaml
 - name:  'Automated Version Bump'
-  uses:  'phips28/gh-action-bump-version@master'
+  uses:  'edjdigital/gh-action-bump-version-noff@master'
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   with:
@@ -70,7 +72,7 @@ Customize the messages that trigger the version bump. It must be a string, case 
 Override the version type taken from the commit message. Usefull when manually running workflow via workflow_dispatch 
 ```yaml
 - name:  'Automated Version Bump'
-  uses:  'phips28/gh-action-bump-version@master'
+  uses:  'edjdigital/gh-action-bump-version-noff@master'
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   with:
@@ -80,7 +82,7 @@ Override the version type taken from the commit message. Usefull when manually r
 Set a default version bump to use  (optional - defaults to patch). Example:
 ```yaml
 - name:  'Automated Version Bump'
-  uses:  'phips28/gh-action-bump-version@master'
+  uses:  'edjdigital/gh-action-bump-version-noff@master'
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   with:
@@ -91,7 +93,7 @@ Set a default version bump to use  (optional - defaults to patch). Example:
 Set a preid value will building prerelease version  (optional - defaults to 'rc'). Example:
 ```yaml
 - name:  'Automated Version Bump'
-  uses:  'phips28/gh-action-bump-version@master'
+  uses:  'edjdigital/gh-action-bump-version-noff@master'
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   with:
@@ -103,7 +105,7 @@ Set a preid value will building prerelease version  (optional - defaults to 'rc'
 Prefix that is used for the git tag  (optional). Example:
 ```yaml
 - name:  'Automated Version Bump'
-  uses:  'phips28/gh-action-bump-version@master'
+  uses:  'edjdigital/gh-action-bump-version-noff@master'
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   with:
@@ -114,7 +116,7 @@ Prefix that is used for the git tag  (optional). Example:
 Suffix that is used for the git tag  (optional). Example:
 ```yaml
 - name:  'Automated Version Bump'
-  uses:  'phips28/gh-action-bump-version@master'
+  uses:  'edjdigital/gh-action-bump-version-noff@master'
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   with:
@@ -125,7 +127,7 @@ Suffix that is used for the git tag  (optional). Example:
 The tag is not added to the git repository  (optional). Example:
 ```yaml
 - name:  'Automated Version Bump'
-  uses:  'phips28/gh-action-bump-version@master'
+  uses:  'edjdigital/gh-action-bump-version-noff@master'
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   with:
@@ -136,7 +138,7 @@ The tag is not added to the git repository  (optional). Example:
 No commit is made after the version is bumped (optional). Must be used in combination with `skip-tag`, since if there's no commit, there's nothing to tag. Example:
 ```yaml
 - name:  'Automated Version Bump'
-  uses:  'phips28/gh-action-bump-version@master'
+  uses:  'edjdigital/gh-action-bump-version-noff@master'
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   with:
@@ -148,7 +150,7 @@ No commit is made after the version is bumped (optional). Must be used in combin
 If true, skip pushing any commits or tags created after the version bump (optional). Example:
 ```yaml
 - name:  'Automated Version Bump'
-  uses:  'phips28/gh-action-bump-version@master'
+  uses:  'edjdigital/gh-action-bump-version-noff@master'
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   with:
@@ -159,7 +161,7 @@ If true, skip pushing any commits or tags created after the version bump (option
 Param to parse the location of the desired package.json (optional). Example:
 ```yaml
 - name:  'Automated Version Bump'
-  uses:  'phips28/gh-action-bump-version@master'
+  uses:  'edjdigital/gh-action-bump-version-noff@master'
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     PACKAGEJSON_DIR:  'frontend'
@@ -169,7 +171,7 @@ Param to parse the location of the desired package.json (optional). Example:
 Param to use another file for detect version (optional). Example:
 ```yaml
 - name:  'Automated Version Bump'
-  uses:  'phips28/gh-action-bump-version@master'
+  uses:  'edjdigital/gh-action-bump-version-noff@master'
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     PACKAGE_FILENAME:  'app.json'
@@ -179,7 +181,7 @@ Param to use another file for detect version (optional). Example:
 Set a custom target branch to use when bumping the version. Useful in cases such as updating the version on master after a tag has been set (optional). Example:
 ```yaml
 - name:  'Automated Version Bump'
-  uses:  'phips28/gh-action-bump-version@master'
+  uses:  'edjdigital/gh-action-bump-version-noff@master'
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   with:
@@ -190,7 +192,7 @@ Set a custom target branch to use when bumping the version. Useful in cases such
 Set a custom commit message for version bump commit. Useful for skipping additional workflows run on push. Example:
 ```yaml
 - name:  'Automated Version Bump'
-  uses:  'phips28/gh-action-bump-version@master'
+  uses:  'edjdigital/gh-action-bump-version-noff@master'
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   with:
@@ -207,7 +209,7 @@ Set version bump ignore policy. Useful for pull requests between branches with v
 Example:
 ```yaml
 - name:  'Automated Version Bump'
-  uses:  'phips28/gh-action-bump-version@master'
+  uses:  'edjdigital/gh-action-bump-version-noff@master'
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   with:
@@ -220,7 +222,7 @@ Set check-last-commit-only to only read last commit's message (optional). Exampl
 
 ```yaml
 - name:  'Automated Version Bump'
-  uses:  'phips28/gh-action-bump-version@master'
+  uses:  'edjdigital/gh-action-bump-version-noff@master'
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   with:
@@ -234,7 +236,7 @@ Example:
 
 ```yaml
 - name:  'Automated Version Bump'
-  uses:  'phips28/gh-action-bump-version@master'
+  uses:  'edjdigital/gh-action-bump-version-noff@master'
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   with:
@@ -245,7 +247,7 @@ Example:
 **DEPRECATED** Set false you want to avoid pushing the new version tag/package.json. Example:
 ```yaml
 - name:  'Automated Version Bump'
-  uses:  'phips28/gh-action-bump-version@master'
+  uses:  'edjdigital/gh-action-bump-version-noff@master'
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   with:

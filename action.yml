@@ -1,4 +1,4 @@
-name: Node Action Bump (no-ff fork)
+name: Node Action Bump (no-feature flag fork)
 description: Automated version bump for npm packages.
 runs:
   using: node20
