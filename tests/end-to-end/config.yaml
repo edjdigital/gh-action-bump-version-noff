@@ -125,7 +125,7 @@ suites:
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
-                tag-prefix: 'v'
+                tag-prefix: "v"
     tests:
       - message: no keywords
         expected:
@@ -146,7 +146,7 @@ suites:
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
-                tag-suffix: '-beta'
+                tag-suffix: "-beta"
     tests:
       - message: no keywords
         expected:
@@ -167,8 +167,8 @@ suites:
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
-                tag-prefix: 'v'
-                tag-suffix: '-beta'
+                tag-prefix: "v"
+                tag-suffix: "-beta"
     tests:
       - message: no keywords
         expected:
@@ -218,7 +218,7 @@ suites:
       - message: no keywords
         expected:
           version: 4.1.4
-          message: 'ci: version bump to 4.1.3'
+          message: "ci: version bump to 4.1.3"
 
 actionFiles:
   - index.js

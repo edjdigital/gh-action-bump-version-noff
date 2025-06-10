@@ -1,9 +1,9 @@
-const execa = require('execa');
+const execa = require("execa");
 
 module.exports = async function exec(command, options, ...params) {
     let suppressOutput;
 
-    if (typeof options === 'object') {
+    if (typeof options === "object") {
         suppressOutput = options.suppressOutput;
     } else {
         params.unshift(options);

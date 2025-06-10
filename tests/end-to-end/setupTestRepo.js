@@ -1,14 +1,14 @@
-const { existsSync } = require('fs');
-const { rm, mkdir, copyFile, stat } = require('fs/promises');
-const { chdir, cwd } = require('process');
-const { resolve, join, dirname } = require('path');
-const exec = require('./exec');
-const git = require('./git');
-const glob = require('tiny-glob');
-const { clearWorkflowRuns } = require('./actionsApi');
+const { existsSync } = require("fs");
+const { rm, mkdir, copyFile, stat } = require("fs/promises");
+const { chdir, cwd } = require("process");
+const { resolve, join, dirname } = require("path");
+const exec = require("./exec");
+const git = require("./git");
+const glob = require("tiny-glob");
+const { clearWorkflowRuns } = require("./actionsApi");
 
 module.exports = async function setupTestRepo(actionFileGlobPaths) {
-    const testRepoPath = resolve(__dirname, '..', '..', 'test-repo');
+    const testRepoPath = resolve(__dirname, "..", "..", "test-repo");
 
     if (existsSync(testRepoPath)) {
         await rm(testRepoPath, { recursive: true, force: true });
@@ -23,19 +23,19 @@ module.exports = async function setupTestRepo(actionFileGlobPaths) {
         copyActionFiles(actionFileGlobPaths)
     ]);
 
-    await git('init', '--initial-branch', 'main');
+    await git("init", "--initial-branch", "main");
     await addRemote();
-    await git('config', 'user.name', 'Automated Version Bump Test');
-    await git('config', 'user.email', 'gh-action-bump-version-test@users.noreply.github.com');
-    await git('add', '.');
-    await git('commit', '--message', 'initial commit (version 1.0.0)');
-    await git('push', '--force', '--set-upstream', 'origin', 'main');
+    await git("config", "user.name", "Automated Version Bump Test");
+    await git("config", "user.email", "gh-action-bump-version-test@users.noreply.github.com");
+    await git("add", ".");
+    await git("commit", "--message", "initial commit (version 1.0.0)");
+    await git("push", "--force", "--set-upstream", "origin", "main");
 
     await deleteTagsAndBranches();
 };
 
 function createNpmPackage() {
-    return exec('npm', 'init', '-y');
+    return exec("npm", "init", "-y");
 }
 
 async function addRemote() {
@@ -44,19 +44,19 @@ async function addRemote() {
     const token = process.env.TEST_TOKEN;
     const authUrl = testRepoUrl.replace(/^https:\/\//, `https://${username}:${token}@`);
 
-    await git('remote', 'add', 'origin', authUrl);
+    await git("remote", "add", "origin", authUrl);
 }
 
 async function copyActionFiles(globPaths) {
-    const actionFolder = join(cwd(), 'action');
+    const actionFolder = join(cwd(), "action");
 
     await mkdir(actionFolder);
 
-    const projectRoot = join(__dirname, '..', '..');
+    const projectRoot = join(__dirname, "..", "..");
     const globResults = await Promise.all(globPaths.map((path) => glob(path, { cwd: projectRoot })));
     const relativeFilePaths = await Promise.all([...new Set(globResults.flat())]);
 
-    const folders = [...new Set(relativeFilePaths.map(dirname))].filter((path) => path !== '.');
+    const folders = [...new Set(relativeFilePaths.map(dirname))].filter((path) => path !== ".");
 
     if (folders.length > 0) {
         await Promise.all(folders.map((folder) => mkdir(join(actionFolder, folder), { recursive: true })));
@@ -75,14 +75,14 @@ async function copyActionFiles(globPaths) {
 }
 
 async function deleteTagsAndBranches() {
-    const listResult = await git({ suppressOutput: true }, 'ls-remote', '--tags', '--heads', 'origin');
+    const listResult = await git({ suppressOutput: true }, "ls-remote", "--tags", "--heads", "origin");
     
     if (listResult.stdout) {
-        const lines = listResult.stdout.split('\n');
-        const refs = lines.map((line) => line.split('\t')[1]).filter((ref) => ref !== 'refs/heads/main');
+        const lines = listResult.stdout.split("\n");
+        const refs = lines.map((line) => line.split("\t")[1]).filter((ref) => ref !== "refs/heads/main");
 
         if (refs.length > 0) {
-            await git('push', 'origin', '--delete', ...refs);
+            await git("push", "origin", "--delete", ...refs);
         }
     }
 }
